@@ -8,13 +8,11 @@ import FontAwesome from 'react-native-vector-icons/Ionicons'
 
 class NoAvatarMessage extends GiftedChatMessage {
   // This fixes an issue where blank avatars are rendered;
-  // https://github.com/FaridSafi/react-native-gifted-chat/issues/2093
   renderAvatar() {
     return null;
   }
 }
 
-// Render custom blank avatar messages
 const CustomMessage = (props: MessageProps<IMessage>): JSX.Element => (
   <NoAvatarMessage
     {...props}
@@ -25,7 +23,8 @@ export default function ChatScreen({user,route,navigation}) {
     const [messages, setMessages] = useState([]);
     const [profile,setProfile] = useState('')
 
-     const {uid} = route.params;
+     const {uid,name,pic} = route.params;
+
      const getAllMessages = async ()=>{
         const docid  = uid > user.uid ? user.uid+ "-" + uid : uid+"-"+user.uid 
         const querySanp = await firestore().collection('chats')
@@ -43,7 +42,6 @@ export default function ChatScreen({user,route,navigation}) {
      }
     useEffect(() => {
       // getAllMessages()
-
       const docid  = uid > user.uid ? user.uid+ "-" + uid : uid+"-"+user.uid 
         const messageRef = firestore().collection('chats')
         .doc(docid)
@@ -70,26 +68,28 @@ export default function ChatScreen({user,route,navigation}) {
         return ()=>{
           unSubscribe()
         }
-        
-
       }, [])
 
       useEffect(() => {
         navigation.setOptions({
             headerLeft: () => (
-              // <>
-              // <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-              //   <FontAwesome name="chevron-back-sharp" size={22} color='black' style={{marginLeft: 15}} onPress={()=>navigation.goBack()}/>
-              //   <Image style={{
-              //     width:50,
-              //     height:50,
-              //     borderRadius:30,
-              //     borderWidth:3,
-              //     borderColor:"white"
-              //   }} source={{uri:profile.pic}} />
-              // </View>
-              // </>
-                <FontAwesome name="chevron-back-sharp" size={22} color='black' style={{marginLeft: 15}} onPress={()=>navigation.goBack()}/>
+              <>
+              <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                <FontAwesome name="chevron-back-sharp" size={22} color='black' style={{marginLeft: 15,marginRight:15}} onPress={()=>navigation.goBack()}/>
+                <Image style={{
+                  width:50,
+                  height:50,
+                  borderRadius:30,
+                  borderWidth:2,
+                  borderColor:"white"
+                }} source={{uri:pic}} />
+                <View style={{marginLeft:15}} >
+                  <Text style={{color:'white',fontSize:18,fontWeight:'600'}} >{route.params.name}</Text>
+                  <Text style={{color:'#1e1e1e',fontSize:13}} >{route.params.status}</Text>
+                </View>
+              </View>
+              </>
+                // <FontAwesome name="chevron-back-sharp" size={22} color='black' style={{marginLeft: 15}} onPress={()=>navigation.goBack()}/>
             ),
         });
         firestore().collection('users').doc(user.uid).get().then(docSnap=>{
@@ -115,8 +115,8 @@ export default function ChatScreen({user,route,navigation}) {
        .doc(docid)
        .collection('messages')
        .add({...mymsg,createdAt:firestore.FieldValue.serverTimestamp()})
-
       }
+
     return (
         <View style={{flex:1,backgroundColor:"white",borderRadius:30}}>
            <GiftedChat
@@ -166,5 +166,3 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 60,
   },
 });
-
-// "Jn6rmdemhVSiqbnh651U5liUh2D2-WHFCNQxbFoR9lIWu6yznXWGMfP62"

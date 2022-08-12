@@ -15,12 +15,6 @@ const Home = ({user,navigation}) => {
   const [profile,setProfile] = useState('')
 
 
-  // useEffect(()=>{
-  //   firestore().collection('users').doc(user.uid).get().then(docSnap=>{
-  //      setProfile(docSnap.data())
-  //   })
-  //   },[])
-
     const getUsers = async ()=>{
         const querySanp = await firestore().collection('users').where('uid','!=',user.uid).get()
         const allusers = querySanp.docs.map(docSnap=>docSnap.data())
@@ -30,9 +24,6 @@ const Home = ({user,navigation}) => {
     }
     const getImage = async ()=>{
         const imageSnap = await firestore().collection('users').doc(user.uid).get()
-        // .then(docSnap=>{
-        //   setProfile(docSnap.data())
-        // });
         setProfile(imageSnap.data())
         console.log('@PROFILEADD',profile);
     }
@@ -60,22 +51,15 @@ const Home = ({user,navigation}) => {
           </TouchableOpacity>
         )
       }
-      // useEffect(()=>{
-      //   firestore().collection('users').doc(user.uid).get().then(docSnap=>{
-      //      setProfile(docSnap.data())
-      //   })
-      //   },[])
 
-      
       useLayoutEffect(() => {
         getImage();
         console.log('@1PROFILEADD',profile);
         navigation.setOptions({
             headerRight: () => (
               <TouchableOpacity>
-
                 <Image
-                    source={{ uri: user.pic}}
+                    source={{ uri: profile.pic}}
                     style={{
                         width: 40,
                         height: 40,

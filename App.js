@@ -91,17 +91,17 @@ const Navigation = ()=>{
         <Stack.Screen name="Chat" options={({ route }) => ({ title:
       
           <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-            <Image style={{
+            {/* <Image style={{
                   width:50,
                   height:50,
                   borderRadius:30,
                   resizeMode:'cover'
                 }} 
-            source={{uri:route.params.pic}} />
-              <View style={{marginLeft:15}} >
+            source={{uri:route.params.pic}} /> */}
+              {/* <View style={{marginLeft:15}} >
                 <Text style={{color:'white',fontSize:18,fontWeight:'600'}} >{route.params.name}</Text>
                 <Text style={{color:'#1e1e1e',fontSize:13}} >{route.params.status}</Text>
-            </View>
+              </View> */}
           </View>,
           headerStyle: {
             backgroundColor: '#f9524a',

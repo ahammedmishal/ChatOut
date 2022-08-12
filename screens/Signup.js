@@ -6,7 +6,6 @@ import storage from '@react-native-firebase/storage'
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 
-
 const Signup = ({navigation}) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -14,8 +13,6 @@ const Signup = ({navigation}) => {
   const [showNext,setShowNext] = useState(false)
   const [image,setImage] = useState(null)
   const [loading,setLoading] = useState(false)
-
-
 
 //   const signup = () =>{
 //     if(email != '' && password != ''){
@@ -28,10 +25,10 @@ const Signup = ({navigation}) => {
 //           Alert.alert(error.message);
 //       })   
 //     }else{
-  //         Alert.alert('Both fields are mandatory');
-  //         Alert.alert(error.message);
-  //     }
-  //   }
+//         Alert.alert('Both fields are mandatory');
+//         Alert.alert(error.message);
+//     }
+//   }
 
   if(loading){
     return  <ActivityIndicator size="large" color="lightgrey" />
@@ -60,10 +57,9 @@ const userSignup = async ()=>{
 }
   const pickImageAndUpload = ()=>{
     launchImageLibrary({quality:0.5},(fileobj)=>{
-      console.log(fileobj);
+    console.log(fileobj);
 
-        
-     const uploadTask =  storage().ref().child(`/userprofile/${Date.now()}`).putFile(fileobj.assets[0].uri)
+    const uploadTask =  storage().ref().child(`/userprofile/${Date.now()}`).putFile(fileobj.assets[0].uri)
             uploadTask.on('state_changed', 
              (snapshot) => {
   
@@ -147,7 +143,7 @@ const userSignup = async ()=>{
         </TouchableOpacity>
 
         <View style={styles.signUpContainer}>
-          <Text style={styles.accountText}>you already have an account?</Text>
+          <Text style={styles.accountText}>already have an account?</Text>
           <Text style={styles.signupText} onPress={()=>navigation.navigate('Login')}>Log In</Text>
       </View>
 
